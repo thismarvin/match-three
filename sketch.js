@@ -27,6 +27,23 @@ function reset() {
         }
         tiles.push(row);
     }
+
+    for (let y = 0; y < boardWidth; y++) {
+        for (let x = 0; x < boardWidth; x++) {
+            if (y - 1 >= 0){
+                tiles[y][x].addToAdjacent(tiles[y - 1][x]);
+            }
+            if (y + 1 < boardWidth){
+                tiles[y][x].addToAdjacent(tiles[y + 1][x]);
+            }
+            if (x - 1 >= 0){
+                tiles[y][x].addToAdjacent(tiles[y][x - 1]);
+            }
+            if (x + 1 < boardWidth){
+                tiles[y][x].addToAdjacent(tiles[y][x + 1]);
+            }
+        }
+    }
 }
 
 function mousePressed() {
