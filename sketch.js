@@ -62,6 +62,7 @@ function mousePressed() {
             }
         }
     }
+    checkBoard();
 }
 
 function swap(selected, target) {
@@ -71,6 +72,34 @@ function swap(selected, target) {
     let typeCopy = selected.type;
     selected.type = target.type;
     target.type = typeCopy;
+}
+
+function checkBoard(){
+    for (let y = 0; y < boardWidth; y++) {
+        for (let x = 0; x < boardWidth; x++) {
+            tiles[y][x].neighbors =  sameTypeNeighbors(tiles[y][x]);
+        }
+    }
+}
+
+function sameTypeNeighbors(tile){
+    let total = 0;
+    let stack = [];
+    let visited = [];
+    let current = null;
+    stack.push(tile);
+    visited.push(tile);
+    while (stack.length > 0){
+        current = stack.pop();       
+        total++;
+        for (let neighbor of current.adjacent){
+            if (neighbor.type === current.type && !visited.includes(neighbor)){
+                stack.push(neighbor);
+                visited.push(neighbor);
+            }
+        }
+    }
+    return total;
 }
 
 function drawBoard() {

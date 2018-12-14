@@ -38,5 +38,12 @@ class Tile {
                 break;
         }
         ellipse(this.x * size + size / 2, this.y * size + size / 2, size - 8, size - 8);
+
+        // Debug neighbors
+        fill (255);
+        textSize(20);
+        textFont('Georgia');
+        textAlign(CENTER);
+        text(this.neighbors, this.x * size + size / 2, this.y * size + size / 2 + 5);
     }
 }
