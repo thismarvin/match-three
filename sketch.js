@@ -1,5 +1,4 @@
 let boardWidth;
-let board;
 let tiles;
 let size;
 
@@ -10,7 +9,6 @@ function setup() {
     boardWidth = 8;
     size = 50;
     createCanvas(boardWidth * size, boardWidth * size);
-    board = [];
     tiles = [];
     this.mouseCollision = new Rectangle(0, 0, 1, 1);
     selectedTile = null;
@@ -18,7 +16,6 @@ function setup() {
 }
 
 function reset() {
-    board = [];
     tiles = [];
     let row = [];
     let random = 0;
@@ -26,47 +23,50 @@ function reset() {
         row = [];
         for (let x = 0; x < boardWidth; x++) {
             random = 1 + floor(Math.random() * 5);
-            row.push();
-            tiles.push(new Tile(x, y, random));
+            row.push(new Tile(x, y, random));
         }
-        board.push(row);
+        tiles.push(row);
     }
 }
 
 function mousePressed() {
     this.mouseCollision.setLocation(mouseX, mouseY);
-    for (let tile of tiles) {
-        if (this.mouseCollision.intersects(tile.collisionRectanlge)) {
-            if (selectedTile == null) {
-                selectedTile = tile;
-            } else {
-                swap(selectedTile, tile);
-                selectedTile = null;
-                break;
+    for (let y = 0; y < boardWidth; y++) {
+        for (let x = 0; x < boardWidth; x++) {
+            if (this.mouseCollision.intersects(tiles[y][x].collisionRectanlge)) {
+                if (selectedTile == null) {
+                    selectedTile = tiles[y][x];
+                    break;
+                } else {
+                    swap(selectedTile, tiles[y][x]);
+                    selectedTile = null;
+                    break;
+                }
             }
         }
     }
 }
 
 function swap(selected, target) {
-    board[selected.y][selected.x] = target.type;
-    board[target.y][target.x] = selected.type;
-    let location = createVector(selected.x, selected.y);
-    selected.setLocation(target.x, target.y);
-    target.setLocation(location.x, location.y);
+    let typeCopy = selected.type;
+    selected.type = target.type;
+    target.type = typeCopy;
 }
 
 function drawBoard() {
-    for (let tile of tiles) {
-        tile.show();
+    for (let y = 0; y < boardWidth; y++) {
+        for (let x = 0; x < boardWidth; x++) {
+            tiles[y][x].show();
+        }
     }
 }
 
 function draw() {
     background(0);
-    drawBoard();
-    if (selectedTile != null){
+    if (selectedTile != null) {
         fill(255);
-        rect(selectedTile.x * size ,selectedTile.y * size ,size - 5, size -5);
+        ellipse(selectedTile.x * size + size / 2, selectedTile.y * size + size / 2, size, size);
     }
+    drawBoard();
+
 }
