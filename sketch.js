@@ -65,6 +65,9 @@ function mousePressed() {
 }
 
 function swap(selected, target) {
+    if (!selected.adjacent.includes(target)){
+        return;
+    }
     let typeCopy = selected.type;
     selected.type = target.type;
     target.type = typeCopy;
