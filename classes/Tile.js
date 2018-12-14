@@ -15,6 +15,9 @@ class Tile {
         this.collisionRectanlge.setLocation(this.x * size, this.y * size);
     }
 
+    resetAdjacent(){
+        this.adjacent = [];
+    }
     addToAdjacent(tile) {
         this.adjacent.push(tile);
     }
@@ -37,13 +40,17 @@ class Tile {
                 fill(0, 225, 255);
                 break;
         }
-        ellipse(this.x * size + size / 2, this.y * size + size / 2, size - 8, size - 8);
+        if (!this.remove){
+            ellipse(this.x * size + size / 2, this.y * size + size / 2, size - 8, size - 8);
+        }
 
         // Debug neighbors
-        fill (255);
-        textSize(20);
-        textFont('Georgia');
-        textAlign(CENTER);
-        text(this.neighbors, this.x * size + size / 2, this.y * size + size / 2 + 5);
+        if (debug){
+            fill (255);
+            textSize(20);
+            textFont('Georgia');
+            textAlign(CENTER);
+            text(this.neighbors, this.x * size + size / 2, this.y * size + size / 2 + 5);
+        }
     }
 }
